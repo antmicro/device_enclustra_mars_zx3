@@ -14,9 +14,12 @@
 
 $(call inherit-product, build/target/product/full.mk)
 
-PRODUCT_PACKAGES += gralloc.enclustra
+#PRODUCT_PACKAGES += gralloc.enclustra
+#PRODUCT_PACKAGES += drm_lights.antmicro
+#PRODUCT_PACKAGES += hwcomposer.antmicro
+#PRODUCT_PACKAGES += v4l2_camera.antmicro
 # hwcomposer.zynq
-## PRODUCT_PACKAGES += busybox
+PRODUCT_PACKAGES += busybox
 
 PRODUCT_NAME := mars_zx3
 TARGET_BOOTLOADER_BOARD_NAME := zynq
@@ -26,46 +29,68 @@ TARGET_BOARD_PLATFORM := zynq
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_KERNEL := true
 
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+
 PRODUCT_DEVICE := mars_zx3
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := Enclustra Mars ZX3
 
 # set density to 120 (ldpi) - needed for "tablet" mode
 PRODUCT_PROPERTY_OVERRIDES += \
-        ro.sf.lcd_density=120
+    ro.sf.lcd_density=120
 
 # set number of gralloc framebuffers to 2
 PRODUCT_PROPERTY_OVERRIDES += \
-        debug.gr.numframebuffers=2
+    debug.gr.numframebuffers=2
 
-
-# set ethernet as eth0
+# no gpu to cpu
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.ethernet.interface=eth0
+    ro.bq.gpu_to_cpu_unsupported=1
 
 # set sleep mode to 3 --> "wait for interrupt and ramp clock"
 PRODUCT_PROPERTY_OVERRIDES += \
-        pm.sleep_mode=3
+    pm.sleep_mode=3
 
 # set heap size to 32 megs
 PRODUCT_PROPERTY_OVERRIDES += \
-        dalvik.vm.heapsize=32m
+    dalvik.vm.heapsize=32m
 
 # turn off power collapse
 PRODUCT_PROPERTY_OVERRIDES += \
-        ro.ril.disable.power.collapse=0
+    ro.ril.disable.power.collapse=0
+
+# wifi-only device
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.radio.noril=1
+
+# run shell
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.debuggable=1
 
 DEVICE_PACKAGE_OVERLAYS := \
-        device/generic/armv7-a-neon/overlay \
-        device/enclustra/mars_zx3/overlay
+    device/generic/armv7-a-neon/overlay \
+    device/enclustra/mars_zx3/overlay
+
+PRODUCT_PROPERTY_OVERRIDES := \
+    wifi.interface=wlan0
+
 
 # tablet, no sd card
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
 
 PRODUCT_COPY_FILES := \
-	device/enclustra/mars_zx3/init.xilinxzynqplatform.rc:root/init.xilinxzynqplatform.rc \
-	device/enclustra/mars_zx3/vold.fstab:system/etc/vold.fstab \
-	frameworks/base/data/fonts/system_fonts.xml:system/etc/system_fonts.xml \
-	device/enclustra/mars_zx3/EP0700M06.idc:system/usr/idc/EP0700M06.idc
-
+    device/enclustra/mars_zx3/files/init.usb.rc:root/init.usb.rc \
+    device/enclustra/mars_zx3/files/fstab.usb:root/fstab.usb \
+    device/enclustra/mars_zx3/files/vold.fstab:system/etc/vold.fstab \
+    device/enclustra/mars_zx3/files/hide_cursor.sh:root/hide_cursor.sh \
+    device/enclustra/mars_zx3/files/slowdown.sh:root/slowdown.sh \
+    device/enclustra/mars_zx3/files/init:root/sbin/init \
+    device/enclustra/mars_zx3/files/uinput:root/sbin/uinput \
+    device/enclustra/mars_zx3/files/EP0700M06.idc:system/usr/idc/EP0700M06.idc \
+    device/enclustra/mars_zx3/files/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    device/enclustra/mars_zx3/files/htc_9271.fw:system/etc/firmware/htc_9271.fw \
+    frameworks/base/data/fonts/fallback_fonts.xml:system/etc/fallback_fonts.xml \
+    frameworks/base/data/fonts/fallback_fonts.xml:system/etc/fallback_fonts.xml \
+	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/base/data/fonts/system_fonts.xml:system/etc/system_fonts.xml
 
