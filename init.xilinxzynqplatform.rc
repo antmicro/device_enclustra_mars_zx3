@@ -1,8 +1,0 @@
-on early-init
-    export EXTERNAL_STORAGE /mnt/sdcard
-    mkdir /mnt/sdcard 0000 system system
-    # for backwards compatibility
-
-    mount vfat /dev/sda2 /mnt/sdcard rw wait
-    mount ext4 loop@system.img /system ro
-    mount ext4 loop@userdata.img /data rw nosuid nodev
