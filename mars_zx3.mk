@@ -67,12 +67,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.debuggable=1
 
+# wifi interface name
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.interface=wlan0
+
 DEVICE_PACKAGE_OVERLAYS := \
     device/generic/armv7-a-neon/overlay \
     device/enclustra/mars_zx3/overlay
-
-PRODUCT_PROPERTY_OVERRIDES := \
-    wifi.interface=wlan0
 
 
 # tablet, no sd card
