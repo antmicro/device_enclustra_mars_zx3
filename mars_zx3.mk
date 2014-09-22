@@ -71,6 +71,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
 
+# ethernet interface name    
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.ethernet.interface=eth0
+
 DEVICE_PACKAGE_OVERLAYS := \
     device/generic/armv7-a-neon/overlay \
     device/enclustra/mars_zx3/overlay
